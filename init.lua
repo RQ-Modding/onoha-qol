@@ -4,12 +4,12 @@
 -- only to build the turn order (Ｔ順番生成), so the swap is made just before it
 -- and undone after; her status screen keeps her own speed.
 
-local ONOHA = 62
+local ONOHA = rq.ids.chara.ONOHA_MESPOS
 local FAMILIAR = 10        -- the familiar's character slot (PTC[1]) in a battle
 local OWN_PACE = 30        -- Onoha's speed in the turn order while the skill is on
 local PACE_LEVEL = 20      -- shop level gate
 local PACE_POINTS = 7      -- skill points
-local HEAD_START = 246     -- given by an earlier version of this mod, as an innate skill
+local HEAD_START = rq.ids.skill.HEAD_START -- given by an earlier version of this mod, as an innate skill
 
 rq.log("Onoha QoL: +50 evasion, Familiar Pace")
 

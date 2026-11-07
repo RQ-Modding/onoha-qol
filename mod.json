@@ -3,7 +3,7 @@
   "id": "onoha-qol",
   "name": "Onoha QoL",
   "author": "Magnum Mods",
-  "version": "1.0.0",
-  "loader": "1.2.1",
+  "version": "1.0.1",
+  "loader": "1.15.0",
   "priority": 0
 }
