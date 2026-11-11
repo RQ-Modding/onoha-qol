@@ -13,9 +13,6 @@ local HEAD_START = rq.ids.skill.HEAD_START -- given by an earlier version of thi
 
 rq.log("Onoha QoL: +50 evasion, Familiar Pace")
 
-if not rq.skill.install() then error("onoha-qol: rq.skill.install failed") end
-if not rq.chara.install() then error("onoha-qol: rq.chara.install failed") end
-
 rq.chara.edit(ONOHA, {
   init = { eva = 50 },
 })
@@ -41,16 +38,12 @@ rq.chara.on_offer(function(ctx)
   return { { skill = PACE, cost = PACE_POINTS, points = PACE_POINTS, level = PACE_LEVEL } }
 end)
 
--- The familiar's own speed, read when the game makes it from its monster and
--- before the game holds it to the party's top speed.
+-- The familiar's own speed, read when the game makes it from its monster at the
+-- start of a fight, before the game holds it to the party's top speed.
 local familiar_base
-rq.ain.hook("Ｃ敵登録", {
-  after = function(h)
-    if h.args[1] == FAMILIAR then
-      familiar_base = rq.chara.get(FAMILIAR).spd
-    end
-  end,
-})
+rq.monster.on_create(function(ctx)
+  if ctx.familiar then familiar_base = ctx.spd end
+end)
 
 -- Ｔ順番生成 runs at the start of a fight and again after a switch, and reads
 -- each speed with Ｃ素早さ. Her real speed comes back as soon as it ends.

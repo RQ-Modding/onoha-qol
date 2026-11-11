@@ -3,7 +3,7 @@
   "id": "onoha-qol",
   "name": "Onoha QoL",
   "author": "Moru Zerinho6",
-  "version": "1.0.1",
-  "loader": "1.15.0",
+  "version": "1.0.2",
+  "loader": "2.36.0",
   "priority": 0
 }
