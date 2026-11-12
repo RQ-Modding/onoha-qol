@@ -3,6 +3,12 @@
 Each section is a version of the mod, the `version` in `mod.json`. The release workflow copies the
 section of a tagged version into the release notes.
 
+## 1.0.3
+
+- Familiar Pace sets the two speeds through the loader's `rq.battle.on_order` (the familiar's
+  `own_spd` and `owner`) instead of a hook on the game's function and `rq.monster.on_create`.
+  Needs loader 2.37.0. No change in the game.
+
 ## 1.0.2
 
 - The familiar's own speed is read with the loader's `rq.monster.on_create` instead of a hook on the

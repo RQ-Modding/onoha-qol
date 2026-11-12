@@ -29,15 +29,15 @@ and is gone without the mod.
 
 ## Install
 
-Needs [RQ MOD](https://github.com/RQ-Modding/RQ-Mod) with loader **2.36.0** or newer. Extract the
+Needs [RQ MOD](https://github.com/RQ-Modding/RQ-Mod) with loader **2.37.0** or newer. Extract the
 release zip into the game's `mods` folder, so that you have `mods/onoha-qol/mod.json`.
 
 ## How it works
 
-In a fight the game reads speed only to build the turn order (`Ｔ順番生成`, at the start of a fight
-and after a switch). The mod swaps the two speeds just before it and puts Onoha's back right after.
-The familiar's own speed is read when the game makes it from its monster at the start of a fight
-(`rq.monster.on_create`), before the party cap.
+In a fight the game reads speed only to build the turn order, at the start of a fight and after a
+switch. The mod sets the two speeds for that build only (`rq.battle.on_order`), so Onoha's own comes
+back right after. The familiar's own speed is its speed before the game holds it to the party's top
+speed (the familiar unit's `own_spd`).
 
 ## License
 

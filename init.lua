@@ -1,11 +1,10 @@
 -- Onoha QoL. Onoha Mespos (character 62) gets +50 evasion, and a skill only
 -- she can learn, Familiar Pace: in the turn order her familiar runs at its own
 -- speed plus hers, and she runs at a fixed 30. In a fight the game reads speed
--- only to build the turn order (Ｔ順番生成), so the swap is made just before it
--- and undone after; her status screen keeps her own speed.
+-- only to build the turn order; rq.battle.on_order sets both speeds for that
+-- build only, so her status screen keeps her own.
 
 local ONOHA = rq.ids.chara.ONOHA_MESPOS
-local FAMILIAR = 10        -- the familiar's character slot (PTC[1]) in a battle
 local OWN_PACE = 30        -- Onoha's speed in the turn order while the skill is on
 local PACE_LEVEL = 20      -- shop level gate
 local PACE_POINTS = 7      -- skill points
@@ -38,35 +37,19 @@ rq.chara.on_offer(function(ctx)
   return { { skill = PACE, cost = PACE_POINTS, points = PACE_POINTS, level = PACE_LEVEL } }
 end)
 
--- The familiar's own speed, read when the game makes it from its monster at the
--- start of a fight, before the game holds it to the party's top speed.
-local familiar_base
-rq.monster.on_create(function(ctx)
-  if ctx.familiar then familiar_base = ctx.spd end
+-- The turn list is built at the start of a fight and again after a switch. The familiar's
+-- own_spd is its speed before the game holds it to the party's top speed.
+rq.battle.on_order(function(ctx)
+  local iic = rq.chara.find(ONOHA)
+  if not iic or rq.chara.rank(iic, PACE) < 1 then return end
+  local familiar, onoha
+  for _, u in ipairs(ctx.units) do
+    if u.side == "familiar" then familiar = u elseif u.iic == iic then onoha = u end
+  end
+  if not familiar or not onoha or familiar.owner ~= iic then return end
+  ctx:speed(familiar.iic, math.min(9999, familiar.own_spd + onoha.spd))
+  ctx:speed(iic, OWN_PACE)
 end)
-
--- Ｔ順番生成 runs at the start of a fight and again after a switch, and reads
--- each speed with Ｃ素早さ. Her real speed comes back as soon as it ends.
-local saved
-rq.ain.hook("Ｔ順番生成", {
-  before = function()
-    saved = nil
-    local iic = rq.chara.find(ONOHA)
-    if not iic or rq.chara.rank(iic, PACE) < 1 then return end
-    if rq.ain.global("PTC", 1) ~= FAMILIAR or rq.ain.global("◆従魔オーナー番号") ~= iic then return end
-    local spd = rq.chara.get(iic).spd
-    local base = familiar_base or rq.chara.get(FAMILIAR).spd
-    rq.chara.set(FAMILIAR, { spd = base + spd })
-    rq.chara.set(iic, { spd = OWN_PACE })
-    saved = { iic = iic, spd = spd }
-  end,
-  after = function()
-    if saved then
-      rq.chara.set(saved.iic, { spd = saved.spd })
-      saved = nil
-    end
-  end,
-})
 
 -- The earlier version taught her Head Start, which the Remove button cannot take
 -- off. Take it off once, on the hub, and remember that in the save's store so a

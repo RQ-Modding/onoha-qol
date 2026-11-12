@@ -15,7 +15,7 @@ No buttons and no `rq.agent.control` ids. Do not invent controls for it. It adds
    `Familiar Pace` once she is level 20. After she learns it, the row is gone.
 3. **Turn order:** with Familiar Pace learned and her familiar in the fight, the familiar's `spd`
    (`rq.chara.get(10).spd`) during the turn order is its own plus Onoha's, and Onoha acts at 30.
-   Outside `Ｔ順番生成` her `spd` is her own.
+   Outside that build her `spd` is her own.
 4. **Head Start:** on the first hub visit with an old save that had it, the log says
    `Onoha QoL: removed the Head Start an earlier version gave`, once.
 
