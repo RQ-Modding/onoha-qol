@@ -2,6 +2,10 @@
 
 For **Onoha Mespos**: more evasion, and a skill that lets her familiar act sooner and more often.
 
+## Showcase
+
+<img width="433" height="247" alt="image" src="https://github.com/user-attachments/assets/dfcea059-f1bc-410f-891c-ad03bc74a0c7" />
+
 ## What it changes
 
 - **+50 evasion.** It reaches old saves too, as soon as a save loads, and goes away with the mod.
